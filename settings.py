@@ -5,6 +5,9 @@ class Settings:
 
     def __init__(self):
         """Initialize game settings"""
+        # Map tiles
+        self.map_tile = 16
+
         # sprite pages
         self.block_filename = "image/custom.png"
         self.block_filename_vector = Vector2(28,24)

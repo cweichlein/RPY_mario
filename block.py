@@ -8,7 +8,7 @@ class brick:
     def __init__(self, setting: Settings, pos: Vector2, disp: display):
         self.disp = disp
         self.brick = spriteSheet(setting.block_filename, setting.block_filename_vector)
-        self.pos = pos
+        self.pos = pos * setting.map_tile
         self.brick_index = setting.brick
         self.brick_break = setting.brick_destroy
         self.brick_debris_L = setting.brick_debris_L
@@ -21,9 +21,9 @@ class bricks:
     def __init__(self, setting: Settings,origin: Vector2, count: int, disp: display, horz: bool):
         self.bricks = list()
         if horz:
-            self.bricks = [brick(setting,Vector2(origin.x + 16*x, origin.y), disp) for x in range(count)]
+            self.bricks = [brick(setting,Vector2(origin.x + x, origin.y), disp) for x in range(count)]
         else:
-            self.bricks = [brick(setting, Vector2(origin.x, origin.y + 16 * x), disp) for x in range(count)]
+            self.bricks = [brick(setting, Vector2(origin.x, origin.y + x), disp) for x in range(count)]
 
     def draw(self):
         for brick in self.bricks:
