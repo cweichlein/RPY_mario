@@ -10,25 +10,25 @@ class Settings:
 
         # sprite pages
         self.block_filename = "image/custom.png"
-        self.block_filename_vector = Vector2(28,24)
+        self.block_filename_vector = Vector2(26, 24)
 
-        self.brick = tuple(3)
-        self.brick_destroy = tuple(32)
-        self.brick_debris_L = tuple(33)
-        self.brick_debris_R = tuple(34)
+        self.brick = (4)
+        self.brick_destroy = (32)
+        self.brick_debris_L = (33)
+        self.brick_debris_R = (34)
 
-        self.question_block = tuple(0,1,2)
+        self.question_block = (0, 1, 2)
 
         # pipes
-        self.pipe_entr_top_h = tuple(15,16)
-        self.pipe_tube_top_h = tuple(40,41)
+        self.pipe_entr_top_h = (14, 15)
+        self.pipe_tube_top_h = (40, 41)
 
-        self.pipe_entr_bot_h = tuple(15,16)
-        self.pipe_tube_bot_h = tuple(40,41)
+        self.pipe_entr_bot_h = (118, 119)
+        self.pipe_tube_bot_h = (40, 41)
 
-        self.pipe_entr_left_v = tuple(80,105)
-        self.pipe_tube_left_v = tuple(81,106)
+        self.pipe_entr_left_v = (80, 105)
+        self.pipe_tube_left_v = (81, 106)
 
-        self.pipe_entr_right_v = tuple(80,105)
-        self.pipe_tube_right_v = tuple(81,106)
+        self.pipe_entr_right_v = (80, 105)
+        self.pipe_tube_right_v = (81, 106)
         pass
