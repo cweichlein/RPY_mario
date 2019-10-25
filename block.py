@@ -8,33 +8,34 @@ class brick:
     def __init__(self, setting: Settings, pos: Vector2, disp: display):
         self.disp = disp
         self.brick = spriteSheet(setting.block_filename, setting.block_filename_vector)
-        self.pos = pos
+        self.pos = pos * setting.map_tile
         self.brick_index = setting.brick
         self.brick_break = setting.brick_destroy
         self.brick_debris_L = setting.brick_debris_L
         self.brick_debris_R = setting.brick_debris_R
 
     def draw(self):
-        self.brick.draw(self.disp,self.brick,self.pos)
+        self.brick.draw(self.disp, self.brick_index, self.pos)
     pass
 class bricks:
-    def __init__(self, setting: Settings,origin: Vector2, count: int, disp: display, horz: bool):
+    def __init__(self, setting: Settings, origin: Vector2, count: int, disp: display, horz: bool):
         self.bricks = list()
         if horz:
-            self.bricks = [brick(setting,Vector2(origin.x + 16*x, origin.y), disp) for x in range(count)]
+            self.bricks = [brick(setting, Vector2(origin.x + x, origin.y), disp) for x in range(count)]
+            print([Vector2(origin.x + x, origin.y)for x in range(count)])
         else:
-            self.bricks = [brick(setting, Vector2(origin.x, origin.y + 16 * x), disp) for x in range(count)]
+            self.bricks = [brick(setting, Vector2(origin.x, origin.y + x), disp) for x in range(count)]
 
     def draw(self):
-        for brick in self.bricks:
-            brick.draw()
+        for mybrick in self.bricks:
+            mybrick.draw()
     pass
 
 class question:
     def __init__(self, setting: Settings, pos: Vector2, disp: display):
         self.disp = disp
         self.question = spriteSheet(setting.block_filename, setting.block_filename_vector)
-        self.pos = pos
+        self.pos = pos * setting.map_tile
         self.question_block = setting.question_block
         self.index = 0
         self.anim_len = len(self.question_block)
@@ -50,15 +51,18 @@ class question:
 
 class questions:
     pass
-class pipe:
 
+class pipe:
     def __init__(self, setting: Settings, pos: Vector2, dim: Vector2, disp: display, horz: bool, top: bool, left: bool):
         self.disp = disp
+        self.setting = setting
         self.pipe = spriteSheet(setting.block_filename, setting.block_filename_vector)
-        self.pos = pos
+        self.pos = pos * setting.map_tile
         self.dim = dim
-        self.rect = [Rect(pos.x + self.pipe.cell_width * x, pos.y + self.pipe.cell_height * x,self.pipe.cell_width,self.pipe.cell_height)for x in range(dim.x * dim.y)]
-
+        self.rect = list()
+        for x in range(1, int(dim.x + 1)):
+            for y in range(1, int(dim.y + 1)):
+                 self.rect.append(Rect(pos.x + self.pipe.cell_width * x, pos.y + self.pipe.cell_height * y, self.pipe.cell_width, self.pipe.cell_height))
 
         if horz:
             if top:
@@ -80,22 +84,47 @@ class pipe:
         self.left = left
 
     def draw(self):
-        pygame.draw.rect(self.disp, Color('#ffffff'), self.rect)
+        for rect in self.rect:
+            pass
+            # draw.rect(self.disp, Color('#ffffff'), rect)
         if self.horz:
             if self.top:
                 count = 0
                 for entr in self.pipe_entr:
-                    self.pipe.draw(self.disp, entr, Vector2(self.pos.x + 16 * count, self.pos.y))
+                    self.pipe.draw(self.disp, entr, Vector2(self.pos.x + self.setting.map_tile * count, self.pos.y))
                     count += 1
-                for x in self.dim.y:
+                for x in range(1, int(self.dim.y)):
                     count = 0
                     for tube in self.pipe_tube:
-                        self.pipe.draw(self.disp, tube,Vector2(self.pos.x + 16 * count, self.pos.y + 16 * x))
-                        count =+ 1
+                        self.pipe.draw(self.disp, tube,Vector2(self.pos.x + self.setting.map_tile * count, self.pos.y + 16 * x))
+                        count += 1
+            else:
+                for x in range(int(self.dim.y)):
+                    count = 0
+                    for tube in self.pipe_tube:
+                        self.pipe.draw(self.disp, tube, Vector2(self.pos.x + self.setting.map_tile * count, self.pos.y + 16 * x))
+                        count += 1
+                count = 0
+                for entr in self.pipe_entr:
+                    self.pipe.draw(self.disp, entr, Vector2(self.pos.x + self.setting.map_tile * count, self.pos.y * self.dim.y))
+                    count += 1
+                pass
+        else:
+            if self.left:
+                for x in range(1, int(self.dim.y)):
+                    count = 0
+                    for tube in self.pipe_tube:
+                        self.pipe.draw(self.disp, tube,Vector2(self.pos.x + self.setting.map_tile * x, self.pos.y + self.setting.map_tile * count))
+                        count += 1
+                pass
+            else:
+                for x in range(1, int(self.dim.y)):
+                    count = 0
+                    for tube in self.pipe_tube:
+                        self.pipe.draw(self.disp, tube,Vector2(self.pos.x + self.setting.map_tile * x, self.pos.y + self.setting.map_tile * count))
+                        count += 1
+                pass
 
-
-class horz_pipe:
-    pass
 class invincible_block:
     pass
 class invincible_blocks:
