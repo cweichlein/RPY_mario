@@ -181,3 +181,4 @@ modules.xml
 
 # __pycache__
 __pycache__/*
+.vscode/settings.json
