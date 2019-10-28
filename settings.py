@@ -44,8 +44,20 @@ class Settings:
                 'upside_down': self.get_frame_list(path='image/enemies/goomba/gray_goomba/upside_down', count=1),
                 'crushed': self.get_frame_list(path='image/enemies/goomba/gray_goomba/crushed', count=1)
             },
-            'koopa_troopa': {
-                'base': self.get_frame_list(path='image/enemies/koopa_troopa/base', count=1)
+            'green_koopa_troopa': {
+                'base': self.get_frame_list(path='image/enemies/koopa_troopa/green/base', count=1),
+                'walk_right': self.get_frame_list(path='imgage/enemies/koopa_troopa/green/walk_right', count=2),
+                'walk_left': self.get_frame_list(path='imgage/enemies/koopa_troopa/green/walk_left', count=2),
+                'upside_down': self.get_frame_list(path='image/enemies/koopa_troopa/green/upside_down', count=1),
+                'in_shell': self.get_frame_list(path='image/enemies/koopa_troopa/green/in_shell', count=1),
+            },
+            'red_koopa_troopa': {
+                'base': self.get_frame_list(path='image/enemies/koopa_troopa/red/base', count=1),
+                'walk_right': self.get_frame_list(path='imgage/enemies/koopa_troopa/red/walk_right', count=2),
+                'walk_left': self.get_frame_list(path='imgage/enemies/koopa_troopa/red/walk_left', count=2),
+                'upside_down': self.get_frame_list(path='image/enemies/koopa_troopa/red/upside_down', count=1),
+                'in_shell': self.get_frame_list(path='image/enemies/koopa_troopa/red/in_shell', count=1),
+
             }
         }
 
