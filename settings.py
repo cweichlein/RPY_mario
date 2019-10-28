@@ -9,10 +9,13 @@ class Settings:
 
         self.character_frames = {
             'mario': {
-                'base': self.get_frame_list(path='image/mario/stand/right.png'),
-                'stand_right': self.get_frame_list(path='image/mario/stand/right.png'),
-                'walk_right': self.get_frame_list(path='image/mario/walk_right', count=4),
-                'walk_left': self.get_frame_list(path='image/mario/walk_left', count=4)
+                'base': self.get_frame_list(path='image/mario/mario/stand_right', count=1),
+                'stand_right': self.get_frame_list(path='image/mario/mario/stand_right', count=1),
+                'stand_left': self.get_frame_list(path='image/mario/mario/stand_left', count=1),
+                'walk_right': self.get_frame_list(path='image/mario/mario/walk_right', count=3),
+                'walk_left': self.get_frame_list(path='image/mario/mario/walk_left', count=3),
+                'jump_right': self.get_frame_list(path='image/mario/mario/jump_right', count=1),
+                'jump_left': self.get_frame_list(path='image/mario/mario/jump_left', count=1)
             }
         }
 
@@ -44,10 +47,6 @@ class Settings:
         self.pipe_tube_right_v = (81, 106)
         pass
 
-    def get_frame_list(self, path, count=-1):
+    def get_frame_list(self, path, count=1):
         """Returns a list of image files."""
-        if count == -1:
-            return [pygame.image.load(path)]
-
-        else:
-            return [pygame.image.load(path + '/{}.png'.format(i)) for i in range(0,count)]
+        return [pygame.transform.scale2x(pygame.image.load(path + '/{}.png'.format(i))) for i in range(0,count)]

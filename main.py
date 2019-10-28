@@ -36,10 +36,7 @@ class main:
             self.pipe_bot.draw()
             self.mario.update()
 
-            self.mario.blitme()
-
             pygame.display.flip()
-            pygame.time.wait(1)
 
 
 if __name__ == '__main__':
