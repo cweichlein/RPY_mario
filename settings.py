@@ -16,6 +16,36 @@ class Settings:
                 'walk_left': self.get_frame_list(path='image/mario/mario/walk_left', count=3),
                 'jump_right': self.get_frame_list(path='image/mario/mario/jump_right', count=1),
                 'jump_left': self.get_frame_list(path='image/mario/mario/jump_left', count=1)
+            },
+            'super_mario': {
+                'base': self.get_frame_list(path='image/mario/super_mario/stand_right', count=1),
+                'stand_right': self.get_frame_list(path='image/mario/super_mario/stand_right', count=1),
+                'stand_left': self.get_frame_list(path='image/mario/super_mario/stand_left', count=1),
+                'walk_right': self.get_frame_list(path='image/mario/super_mario/walk_right', count=3),
+                'walk_left': self.get_frame_list(path='image/mario/super_mario/walk_left', count=3),
+                'jump_right': self.get_frame_list(path='image/mario/super_mario/jump_right', count=1),
+                'jump_left': self.get_frame_list(path='image/mario/super_mario/jump_left', count=1)
+            },
+            'goomba': {
+                'base': self.get_frame_list(path='image/enemies/goomba/base', count=1),
+                'walk': self.get_frame_list(path='image/enemies/goomba/walk', count=2),
+                'upside_down': self.get_frame_list(path='image/enemies/goomba/upside_down', count=1),
+                'crushed': self.get_frame_list(path='image/enemies/goomba/crushed', count=1)
+            },
+            'blue_goomba': {
+                'base': self.get_frame_list(path='image/enemies/goomba/blue_goomba/base', count=1),
+                'walk': self.get_frame_list(path='image/enemies/goomba/blue_goomba/walk', count=2),
+                'upside_down': self.get_frame_list(path='image/enemies/goomba/blue_goomba/upside_down', count=1),
+                'crushed': self.get_frame_list(path='image/enemies/goomba/blue_goomba/crushed', count=1)
+            },
+            'gray_goomba': {
+                'base': self.get_frame_list(path='image/enemies/goomba/gray_goomba/base', count=1),
+                'walk': self.get_frame_list(path='image/enemies/goomba/gray_goomba/walk', count=2),
+                'upside_down': self.get_frame_list(path='image/enemies/goomba/gray_goomba/upside_down', count=1),
+                'crushed': self.get_frame_list(path='image/enemies/goomba/gray_goomba/crushed', count=1)
+            },
+            'koopa_troopa': {
+                'base': self.get_frame_list(path='image/enemies/koopa_troopa/base', count=1)
             }
         }
 

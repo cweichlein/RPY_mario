@@ -10,7 +10,7 @@ class Animation:
         self.timer = None
 
     def no_frames_error(self, name):
-        raise KeyError('No ' + name + ' animation in that character\'s animations.')
+        raise KeyError('No ' + name + ' animation in that character\'s animations. To fix, add that animation to Settings.character_frames.')
 
     def animate_set_character(self, character, settings):
         """Sets the character to use for animations."""
