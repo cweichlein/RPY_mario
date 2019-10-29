@@ -24,7 +24,31 @@ class Settings:
                 'walk_right': self.get_frame_list(path='image/mario/super_mario/walk_right', count=3),
                 'walk_left': self.get_frame_list(path='image/mario/super_mario/walk_left', count=3),
                 'jump_right': self.get_frame_list(path='image/mario/super_mario/jump_right', count=1),
-                'jump_left': self.get_frame_list(path='image/mario/super_mario/jump_left', count=1)
+                'jump_left': self.get_frame_list(path='image/mario/super_mario/jump_left', count=1),
+                'crouch_left': self.get_frame_list(path='image/mario/super_mario/crouch_left', count=1),
+                'crouch_right': self.get_frame_list(path='image/mario/super_mario/crouch_right', count=1)
+            },
+            'fire_mario': {
+                'base': self.get_frame_list(path='image/mario/fire_mario/stand_right', count=1),
+                'stand_right': self.get_frame_list(path='image/mario/fire_mario/stand_right', count=1),
+                'stand_left': self.get_frame_list(path='image/mario/fire_mario/stand_left', count=1),
+                'walk_right': self.get_frame_list(path='image/mario/fire_mario/walk_right', count=3),
+                'walk_left': self.get_frame_list(path='image/mario/fire_mario/walk_left', count=3),
+                'jump_right': self.get_frame_list(path='image/mario/fire_mario/jump_right', count=1),
+                'jump_left': self.get_frame_list(path='image/mario/fire_mario/jump_left', count=1),
+                'crouch_left': self.get_frame_list(path='image/mario/fire_mario/crouch_left', count=1),
+                'crouch_right': self.get_frame_list(path='image/mario/fire_mario/crouch_right', count=1)
+            },
+            'invin_mario': {
+                'base': self.get_frame_list(path='image/mario/invin_mario/stand_right', count=4),
+                'stand_right': self.get_frame_list(path='image/mario/invin_mario/stand_right', count=4),
+                'stand_left': self.get_frame_list(path='image/mario/invin_mario/stand_left', count=4),
+                'walk_right': self.get_frame_list(path='image/mario/invin_mario/walk_right', count=4),
+                'walk_left': self.get_frame_list(path='image/mario/invin_mario/walk_left', count=4),
+                'jump_right': self.get_frame_list(path='image/mario/invin_mario/jump_right', count=4),
+                'jump_left': self.get_frame_list(path='image/mario/invin_mario/jump_left', count=4),
+                'crouch_left': self.get_frame_list(path='image/mario/invin_mario/crouch_left', count=4),
+                'crouch_right': self.get_frame_list(path='image/mario/invin_mario/crouch_right', count=4)
             },
             'goomba': {
                 'base': self.get_frame_list(path='image/enemies/goomba/base', count=1),
@@ -46,15 +70,15 @@ class Settings:
             },
             'green_koopa_troopa': {
                 'base': self.get_frame_list(path='image/enemies/koopa_troopa/green/base', count=1),
-                'walk_right': self.get_frame_list(path='imgage/enemies/koopa_troopa/green/walk_right', count=2),
-                'walk_left': self.get_frame_list(path='imgage/enemies/koopa_troopa/green/walk_left', count=2),
+                'walk_right': self.get_frame_list(path='image/enemies/koopa_troopa/green/walk_right', count=2),
+                'walk_left': self.get_frame_list(path='image/enemies/koopa_troopa/green/walk_left', count=2),
                 'upside_down': self.get_frame_list(path='image/enemies/koopa_troopa/green/upside_down', count=1),
                 'in_shell': self.get_frame_list(path='image/enemies/koopa_troopa/green/in_shell', count=1),
             },
             'red_koopa_troopa': {
                 'base': self.get_frame_list(path='image/enemies/koopa_troopa/red/base', count=1),
-                'walk_right': self.get_frame_list(path='imgage/enemies/koopa_troopa/red/walk_right', count=2),
-                'walk_left': self.get_frame_list(path='imgage/enemies/koopa_troopa/red/walk_left', count=2),
+                'walk_right': self.get_frame_list(path='image/enemies/koopa_troopa/red/walk_right', count=2),
+                'walk_left': self.get_frame_list(path='image/enemies/koopa_troopa/red/walk_left', count=2),
                 'upside_down': self.get_frame_list(path='image/enemies/koopa_troopa/red/upside_down', count=1),
                 'in_shell': self.get_frame_list(path='image/enemies/koopa_troopa/red/in_shell', count=1),
 
