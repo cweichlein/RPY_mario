@@ -12,11 +12,6 @@ class Goomba(Enemy, Animation):
 
         self.animate_set_character(character='goomba', settings=settings)
 
-    def update(self):
-        self.animate(name_of_animation='jump_right')
-        self.update_animation()
-        self.blitme()
-
     def crushed_death_animation(self):
         time = pygame.time.get_ticks()
         # Animate and keep on screen for half a second before killing sprite
@@ -53,6 +48,7 @@ class Goomba(Enemy, Animation):
             elif self.shell_enemy_kill is True:
                 self.animate(name_of_animation='upside_down')
         self.update_animation()
+        self.blitme()
 
     def goomba_physics(self):
         self.check_boundary()

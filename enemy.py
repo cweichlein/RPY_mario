@@ -65,12 +65,12 @@ class Enemy(Sprite):
         # Check if colliding with map (i.e pipe) or dying from block
         if pygame.sprite.spritecollideany(self, self.block):
             self.enemy_block_collide_flag = True
-            self.ENEMY_DIRECTION *= -1
+            self.enemy_direction *= -1
             return True
         """NEED TO CHECK FOR IF MARIO HITS BLOCK KILLING ENEMY"""
         for block_rect in self.block:
             if self.rect.contains(block_rect.rect):
-                self.ENEMY_DIRECTION = abs(self.ENEMY_DIRECTION) * -1
+                self.enemy_direction = abs(self.enemy_direction) * -1
                 self.enemy_block_collide_flag = True
                 self.block_enemy_kill = True
                 self.dead = True
@@ -82,14 +82,14 @@ class Enemy(Sprite):
         for goomba_rect in self.goombas:
             if goomba_rect is not self and self.rect.colliderect(goomba_rect.rect) and not goomba_rect.dead:
                 self.enemy_goomba_collide_flag = True
-                self.ENEMY_DIRECTION *= -1
+                self.enemy_direction *= -1
                 return True
         for koopa_rect in self.koopas:
             if koopa_rect is not self and self.rect.colliderect(koopa_rect.rect):
                 if koopa_rect.shell_movement:
                     self.shell_enemy_kill = True
                 self.enemy_koopa_collide_flag = True
-                self.ENEMY_DIRECTION *= -1
+                self.enemy_direction *= -1
                 return True
 
     def check_floor(self):
@@ -101,7 +101,7 @@ class Enemy(Sprite):
             pts = [block.rect.topleft, block.rect.midtop, block.rect.topright]
             for pt in pts:
                 if self.rect.collidepoint(pt):
-                    self.x += self.ENEMY_DIRECTION * self.ENEMY_SPEED
+                    self.x += self.enemy_direction * self.enemy_speed
                     return True
 
     def check_boundary(self):
@@ -136,10 +136,10 @@ class Enemy(Sprite):
         self.shell_enemy_kill = False
         self.dead = False
         self.stop = False
-        self.ENEMY_DIRECTION = ENEMY_DIRECTION
-        self.ENEMY_SPEED = ENEMY_SPEED
-        self.ENEMY_GRAVITY = ENEMY_GRAVITY
+        self.enemy_direction = self.setting.enemy_direction
+        self.enemy_speed = self.setting.enemy_speed
+        self.enemy_gravity = self.setting.enemy_gravity
         self.rect.left, self.rect.top = self.x, self.y
 
-    def blit(self):
+    def blitme(self):
         self.screen.blit(self.image, self.rect)

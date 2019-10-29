@@ -27,6 +27,7 @@ class Troopa(Enemy):
     def update(self):
         self.koopa_physics()
         self.update_animation()
+        self.blitme()
 
     def check_player_shell_collision(self):
         # Check player collision when in shell

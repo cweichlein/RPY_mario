@@ -15,11 +15,16 @@ class main:
         self.disp = pygame.display.set_mode((1000,1000))
 
         self.settings = Settings()
+        self.blocks = []
         self.myBrick1 = bricks(self.settings, Vector2(0, 0), 10, self.disp, True)
         self.myBrick2 = bricks(self.settings, Vector2(0, 1), 10, self.disp, False)
         self.Pipe_top = pipe(self.settings, Vector2(1, 1), Vector2(2, 15), self.disp, True, True, False)
         self.pipe_bot = pipe(self.settings, Vector2(3, 1), Vector2(2, 15), self.disp, True, False, False)
-        self.mario = Mario(screen=self.disp, settings=self.settings)
+        self.blocks.append(self.myBrick1)
+        self.blocks.append(self.myBrick2)
+        self.blocks.append(self.Pipe_top)
+        self.blocks.append(self.pipe_bot)
+        self.mario = Mario(screen=self.disp, settings=self.settings, blocks=self.blocks)
 
     def check_event(self):
         for event in pygame.event.get():
