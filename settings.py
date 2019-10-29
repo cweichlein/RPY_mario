@@ -61,6 +61,11 @@ class Settings:
             }
         }
 
+        # Enemy Settings
+        self.enemy_direction = -1
+        self.enemy_gravity = 4
+        self.enemy_speed = 2
+
         # Map tiles
         self.map_tile = 16
 

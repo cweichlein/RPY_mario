@@ -5,7 +5,6 @@ import math
 from animation import Animation
 from timer import Timer
 
-
 class Mario(Sprite, Animation):
     def __init__(self, screen, settings):
         super(Mario, self).__init__()  # initialize superclass object
