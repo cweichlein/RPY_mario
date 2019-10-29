@@ -19,10 +19,9 @@ def check_events(settings, stats, screen, score_board, blocks, mario, fire_balls
 
 
 def check_keydown_events(event, settings, screen, mario, fire_balls):
-    check_jump = 0
     if event.key == pygame.K_SPACE:
-        check_jump = -5
-    # mario.jump(check_jump)
+        mario.k_space = True
+        mario.k_space_held = True
     if event.key == pygame.K_RIGHT:
         mario.change_speed(1, 0)
     elif event.key == pygame.K_LEFT:  # can use elif as each event is only connected to only one key
@@ -34,7 +33,9 @@ def check_keydown_events(event, settings, screen, mario, fire_balls):
 def check_keyup_events(event, settings, mario):
     if event.key == pygame.K_RIGHT:
         mario.change_speed(-1, 0)
-
+    elif event.key == pygame.K_SPACE:
+        mario.k_space_held = False
+        mario.k_space = False
     elif event.key == pygame.K_LEFT:  # can use elif as each event is only connected to one key
         mario.change_speed(1, 0)
 
@@ -49,7 +50,7 @@ def create_block(type_set, settings, screen, x, y, blocks):
     blocks.add(new_block)
 
 
-def create_level(level, settings, screen, blocks, mario):
+def create_level(level, settings, screen, blocks, mario, enemies):
     if level == 1:
         dummy_block = bl.Block(settings, screen)
         type_set = 1
@@ -65,10 +66,6 @@ def create_level(level, settings, screen, blocks, mario):
 
 
 def fire_ball(settings, screen, mario):
-    pass
-
-
-def jump(settings, screen, mario):
     pass
 
 
