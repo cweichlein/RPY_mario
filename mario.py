@@ -20,16 +20,16 @@ class Mario(Sprite):
         self.vertSpeed = float(0)
         self.die = False
         self.respawn = False
-        self.jump_potential_energy_max = 30
+        self.k_space = False
+        self.k_space_held = False
+        self.jump_force = settings.mario_jump_force
+        self.jump_speed = 3
         self.jump_potential_energy = 0
+        self.jump_kinetic_energy = 0
 
     def change_speed(self, h, v):
         self.horizSpeed += float(h)
         self.vertSpeed += float(v)
-
-    def jump_set_potential_energy(self, landed):
-        if landed:
-            self.jump_potential_energy = self.jump_potential_energy_max
 
     def update(self):
         if not self.die:
@@ -51,9 +51,14 @@ class Mario(Sprite):
                     self.rect.top = collided_object.rect.bottom
             if landed:
                 self.vertSpeed = 0
-                # self.jump_potential_energy()
+                self.jump_potential_energy = self.jump_force
             else:
-                self.vertSpeed = 1
+                self.vertSpeed = 2
+            if self.k_space and self.jump_potential_energy > 0:
+                self.jump_potential_energy -= 1
+                self.vertSpeed = -self.jump_speed
+            if self.vertSpeed < 0 and not self.k_space_held:
+                self.vertSpeed = max(self.vertSpeed, 0)
 
     # draws mario image at the current position of self.rect
     def blitme(self):
