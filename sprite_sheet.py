@@ -18,5 +18,4 @@ class spriteSheet:
         self.cells = list([((index % int(dim.x)) * w, (index // int(dim.x)) * h, w, h) for index in range(self.cell_count)])
 
     def draw(self, surface, cell_index: int, pos: Vector2):
-        print('x:' + str(pos.x))
         surface.blit(self.sheet, (int(pos.x), int(pos.y)), self.cells[cell_index])

@@ -1,11 +1,16 @@
-import pygame
 from pygame.math import Vector2
+import pygame
 
 class Settings:
     """Manages game settings"""
 
     def __init__(self):
         """Initialize game settings"""
+        # Map tiles
+        self.map_tile = 16
+
+        # scroll
+        self.scroll_speed = -.025
 
         self.character_frames = {
             'mario': {
@@ -90,17 +95,24 @@ class Settings:
         self.enemy_gravity = 4
         self.enemy_speed = 2
 
-        # Map tiles
-        self.map_tile = 16
-
         # sprite pages
         self.block_filename = "image/custom.png"
         self.block_filename_vector = Vector2(26, 24)
 
-        self.brick = (4)
-        self.brick_destroy = (32)
-        self.brick_debris_L = (33)
-        self.brick_debris_R = (34)
+        self.brick_gold = (4)
+        self.brick_destroy_gold = (32)
+        self.brick_debris_L_gold = (33)
+        self.brick_debris_R_gold = (34)
+
+        self.brick_blue = (338)
+        self.brick_destroy_blue = (32)
+        self.brick_debris_L_blue = (33)
+        self.brick_debris_R_blue = (34)
+
+        self.brick_grey = (234)
+        self.brick_destroy_grey = (32)
+        self.brick_debris_L_grey = (33)
+        self.brick_debris_R_grey = (34)
 
         self.question_block = (0, 1, 2)
 
@@ -111,13 +123,109 @@ class Settings:
         self.pipe_entr_bot_h = (118, 119)
         self.pipe_tube_bot_h = (40, 41)
 
-        self.pipe_entr_left_v = (80, 105)
-        self.pipe_tube_left_v = (81, 106)
+        self.pipe_entr_left_v = (64, 90)
+        self.pipe_tube_left_v = (65, 91)
+        self.pipe_link_left_v = (66, 92)
 
-        self.pipe_entr_right_v = (80, 105)
-        self.pipe_tube_right_v = (81, 106)
-        pass
+        self.pipe_entr_right_v = (68, 94)
+        self.pipe_tube_right_v = (65, 91)
+        self.pipe_link_right_v = (67, 93)
+
+        # self.pipe_dark_green =
+        # self.pipe_lite_green =
+        # self.pipe_dark_brown =
+        # self.pipe_lite_silvr =
+
+        # invincible block
+        self.invincible_block_index = 53
+
+        # floor block
+        self.floor_block_index = 52
+
+        # bridge
+        self.bridge_block_index = (107, 108, 109)
+        self.bridge_fence_index = (81, 82, 83)
+
+        self.boss_bridge_block_index = 238
+        self.boss_bridge_chain_index = 212
+
+        # mushroom
+        self.mushroom_top_green_index = (84, 85, 86)
+        self.mushroom_top_orange_index = (110, 111, 112)
+        self.mushroom_mid_index = 137
+        self.mushroom_bot_index = 163
+
+        # cliff
+        self.cliff_top_index = (78, 79, 80)
+        self.cliff_mid_index = (104, 105, 106)
+        self.cliff_bot_index = (130, 131, 132)
+
+        # water
+        self.water_index = 315
+        self.water_surface_index = 317
+
+        # lava
+        self.lava_index = 237
+        self.lava_surface_index = 211
+
+        # coral
+        self.coral_index = 316
+
+        # cloud
+        self.cloud_index = 420
+
+        # vine
+        self.vine_green_index = 419, 445
+        self.vine_blue_index = 418, 444
+
+        # coin
+        self.coin_reg_index = 26, 27, 28
+        self.coin_cav_index = 286, 287, 288
+        self.coin_wat_index = 390, 391, 392
+
+
+        # castle
+        self.castle_index = 521, 522, 523, 524, 547, 548, 549
+        self.castle_flag_index = 489
+
+        # metel platform
+        self.Ibeam_index = 290, 291, 292
+
+        # pully ropes
+        self.rope_index = 263, 264, 265, 289
+        # axe
+        self.axe_index = 213, 214, 215
+
+        # flag
+        self.flag_index = 495
+        self.flag_poll_index = 470, 496
+        self.flag_height = 8
+
+        # bush
+        self.bush_index = (10, 11, 12)
+
+        # tree
+        self.small_tree_index = (32, 58)
+        self.large_tree_index = (7, 33, 59)
+
+        # hedge
+        self.small_hedge_index = 34
+        self.large_hedge_index = (9, 35)
+
+        # fence
+        self.fence_index = (54, 55, 56)
+
+        # cannon
+        self.cannon_index = 138, 164, 190
+
+        #spring
+        self.up_spring_index = 113, 139
+        self.reg_spring_index = 114, 140
+        self.down_spring_index = 141
+
+
 
     def get_frame_list(self, path, count=1):
         """Returns a list of image files."""
-        return [pygame.transform.scale2x(pygame.image.load(path + '/{}.png'.format(i))) for i in range(0,count)]
+        return [pygame.transform.scale2x(pygame.image.load(path + '/{}.png'.format(i))) for i in range(0, count)]
+    pass

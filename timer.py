@@ -1,4 +1,5 @@
 import pygame
+from pygame.time import get_ticks
 # implement delta time?
 
 
@@ -12,6 +13,7 @@ class Timer:
         self.finished = False
         self.last_frame = len(frames) - 1 if step == 1 else 0
         self.last = None
+
 
     def get_frame_index(self):
         now = pygame.time.get_ticks()

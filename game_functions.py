@@ -41,7 +41,7 @@ def check_keyup_events(event, settings, mario):
 
 
 def create_block(type_set, settings, screen, x, y, blocks):
-    new_block = bl.Block(settings, screen)
+    new_block = bl.brick(settings, screen)
     new_block_width = new_block.rect.width
     new_block.x = x
     new_block.rect.x = new_block.x
@@ -49,10 +49,10 @@ def create_block(type_set, settings, screen, x, y, blocks):
     new_block.rect.y = new_block.y
     blocks.add(new_block)
 
-
+'''
 def create_level(level, settings, screen, blocks, mario, enemies):
     if level == 1:
-        dummy_block = bl.Block(settings, screen)
+        dummy_block = brick(settings, screen)
         type_set = 1
         leny = settings.screen_height - dummy_block.rect.height
         lenx = 0
@@ -63,7 +63,7 @@ def create_level(level, settings, screen, blocks, mario, enemies):
         create_block(type_set, settings, screen, settings.screen_width - 64, mario.rect.centery, blocks)
         mario.rect.centery = settings.screen_height/2
         mario.rect.centerx = settings.screen_width/2
-
+'''
 
 def fire_ball(settings, screen, mario):
     pass
