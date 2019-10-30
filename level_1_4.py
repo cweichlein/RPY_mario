@@ -1,9 +1,21 @@
 from block import *
 from settings import Settings
+<<<<<<< Updated upstream
+=======
+from game_functions import create_block
+>>>>>>> Stashed changes
 
 class level_1_4:
     def __init__(self, setting: Settings, disp: display):
         self.disp = disp
+<<<<<<< Updated upstream
+=======
+        blocks = Group()
+        create_block()
+        self.super_list = list()
+
+        '''
+>>>>>>> Stashed changes
         self.bricks = list()
         self.bricks.append(bricks(setting, Vector2(0, 0), Vector2(128, 1), disp, 'grey'))
         self.bricks.append(bricks(setting, Vector2(0, 1), Vector2(20, 2), disp, 'grey'))
@@ -30,6 +42,11 @@ class level_1_4:
         self.bricks.append(bricks(setting, Vector2(112, 7), Vector2(3, 5), disp, 'grey'))
         self.bricks.append(bricks(setting, Vector2(113, 1), Vector2(2, 3), disp, 'grey'))
         self.bricks.append(bricks(setting, Vector2(115, 10), Vector2(13, 2), disp, 'grey'))
+<<<<<<< Updated upstream
+=======
+        '''
+    def get_rect
+>>>>>>> Stashed changes
 
     def draw(self):
         self.disp.fill(Color('#000000'))
