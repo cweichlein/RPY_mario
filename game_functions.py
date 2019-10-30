@@ -3,12 +3,12 @@ import pygame
 import block as bl
 
 
-def check_events(settings, stats, screen, score_board, blocks, mario, fire_balls, mobs):
+def check_events(settings, screen, blocks, mario):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, settings, screen, mario, fire_balls)
+            check_keydown_events(event, settings, screen, mario)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, settings, mario)
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -18,14 +18,18 @@ def check_events(settings, stats, screen, score_board, blocks, mario, fire_balls
             check_mode_button(settings, stats, mouse_x, mouse_y, mode_button)'''
 
 
-def check_keydown_events(event, settings, screen, mario, fire_balls):
+def check_keydown_events(event, settings, screen, mario):
     if event.key == pygame.K_SPACE:
         mario.k_space = True
         mario.k_space_held = True
     if event.key == pygame.K_RIGHT:
         mario.change_speed(1, 0)
+        mario.direction = 1
+        mario.animate('walk_right')
     elif event.key == pygame.K_LEFT:  # can use elif as each event is only connected to only one key
         mario.change_speed(-1, 0)
+        mario.direction = -1
+        mario.animate('walk_left')
     elif event.key == pygame.K_q:
         sys.exit()
 
@@ -33,11 +37,13 @@ def check_keydown_events(event, settings, screen, mario, fire_balls):
 def check_keyup_events(event, settings, mario):
     if event.key == pygame.K_RIGHT:
         mario.change_speed(-1, 0)
+        mario.animate('stand_right')
     elif event.key == pygame.K_SPACE:
         mario.k_space_held = False
         mario.k_space = False
     elif event.key == pygame.K_LEFT:  # can use elif as each event is only connected to one key
         mario.change_speed(1, 0)
+        mario.animate('stand_left')
 
 
 def create_block(type_set, settings, screen, x, y, blocks):
@@ -98,6 +104,7 @@ def update_screen(settings, stats, screen, score_board, blocks, mario, fire_ball
     # redraw screen with color each loop pass
     if mario.respawn:
         mario.respawn = False
+        mario.animate('stand_right')
         # reset(ai_settings, stats, screen, sb, ship, bullets, aliens, alien_bullets, bunkers, bonus, explosions)
     screen.fill(settings.bg_color)
     '''for ball in fire_balls.sprites():

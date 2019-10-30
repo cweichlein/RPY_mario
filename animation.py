@@ -8,6 +8,7 @@ class Animation:
         self.dict_of_frames = None
         self.image = None
         self.timer = None
+        self.current_animation = None
 
     def no_frames_error(self, name):
         raise KeyError('No ' + name + ' animation in that character\'s animations. To fix, add that animation to Settings.character_frames.')
@@ -18,10 +19,13 @@ class Animation:
             self.dict_of_frames = settings.character_frames[character]
             self.image = self.dict_of_frames['base'][0]
             self.timer = Timer(self.dict_of_frames['base'])
+            self.current_animation = 'base'
 
     def animate(self, name_of_animation):
-        if name_of_animation in self.dict_of_frames:
+        if name_of_animation in self.dict_of_frames and name_of_animation != self.current_animation:
             self.timer.frames = self.dict_of_frames[name_of_animation]
+            self.current_animation = name_of_animation
+            self.timer.frame_index = 0
         
         else:
             self.no_frames_error(name_of_animation)

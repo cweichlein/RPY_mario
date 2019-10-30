@@ -5,6 +5,7 @@ from pygame.math import Vector2
 from block import brick,bricks, pipe
 from settings import Settings
 from mario import Mario
+import game_functions as gf
 
 
 class main:
@@ -34,7 +35,7 @@ class main:
     def run_game(self):
         while True: # main game loop
             self.disp.fill((0, 255, 255))
-            self.check_event()
+            gf.check_events(settings=self.settings, screen=self.disp, blocks=self.blocks, mario=self.mario)
             self.myBrick1.draw()
             self.myBrick2.draw()
             self.Pipe_top.draw()
