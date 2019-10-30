@@ -1,5 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
+from pygame import Rect
 import math
 
 from timer import Timer
@@ -26,7 +27,7 @@ class Mario(Sprite):
         self.jump_potential_energy = 0
 
     def new_blocks(self, list_of_rect):
-
+        pass
 
 
     def change_speed(self, h, v):
@@ -40,6 +41,10 @@ class Mario(Sprite):
     def update(self, list_rect):
         if not self.die:
             self.rect.x += self.horizSpeed
+
+            if self.rect.collidelist(list_rect):
+                pass
+
             collidable_list = pygame.sprite.spritecollide(self, self.blocks, False)
             for collided_object in collidable_list:
                 if self.horizSpeed > 0:

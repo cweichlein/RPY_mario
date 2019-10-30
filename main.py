@@ -55,9 +55,11 @@ class main:
         self.vine1 = vine(self.settings, Vector2(15, 16), Vector2(4, 4), self.disp, 'blue', True)
         self.vine2 = vine(self.settings, Vector2(20, 25), Vector2(4, 4), self.disp, 'green', False)
 
-        self.my_mario = Mario(settings=self.settings, screen=self.disp)
+        #self.my_mario = Mario(settings=self.settings, screen=self.disp)
 
         self.cur_level = level_1_4(self.settings,self.disp)
+        print(self.cur_level.get_rect())
+
         self.delta1 = clock()
 
     def check_event(self):
@@ -146,15 +148,16 @@ class main:
     def run_game(self):
         while True:  # main game loop
             self.delta1.delta_time()
-            # print(self.delta1.delt_time)
+            print(self.delta1.delt_time)
             self.check_event()
+            x = self.cur_level.get_rect()
 
             # todo mario.move(x)
-            # self.cur_level.move()  # todo pass in distance mario moves
-            # self.cur_level.draw()  # draw everything to the screen
-            self.test_scroll(self.delta1.delt_time)
+            self.cur_level.move(self.delta1.delt_time)  # todo pass in distance mario moves
+            self.cur_level.draw()  # draw everything to the screen
+            # self.test_scroll(self.delta1.delt_time)
 
-            self.test_assets()
+            # self.test_assets()
             # todo swap levels
             # if level over destroy cur level and create next level
             pygame.display.update()

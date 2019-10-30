@@ -5,8 +5,7 @@ from game_functions import create_block
 class level_1_4:
     def __init__(self, setting: Settings, disp: display):
         self.disp = disp
-        blocks = Group()
-        create_block()
+
         self.super_list = list()
 
         self.bricks = list()
@@ -37,8 +36,13 @@ class level_1_4:
         self.bricks.append(bricks(setting, Vector2(115, 10), Vector2(13, 2), disp, 'grey'))
 
     def get_rect(self):
-        for brick in bricks:
-            brick
+        x = list()
+        for mybrick in self.bricks:
+            x.append(mybrick.get_rect())
+        for lava in self.lavas:
+            x.append(lava.get_rect())
+
+        return x
 
     def draw(self):
         self.disp.fill(Color('#000000'))
@@ -48,9 +52,9 @@ class level_1_4:
             lava.draw()
         self.bridge.draw()
 
-    def move(self):
+    def move(self, delta):
         for brick in self.bricks:
-            brick.move()
+            brick.move(delta)
         for lava in self.lavas:
-            lava.move()
-        self.bridge.move()
+            lava.move(delta)
+        self.bridge.move(delta)

@@ -133,6 +133,7 @@ class pipe:
             for y in range(1, int(dim.y + 1)):
                  self.rect.append(Rect(pos.x + self.pipe.cell_width * x, pos.y + self.pipe.cell_height * y, self.pipe.cell_width, self.pipe.cell_height))
 
+
         if horz:
             if top:
                 self.pipe_entr = setting.pipe_entr_top_h
