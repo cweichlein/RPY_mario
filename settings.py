@@ -10,7 +10,7 @@ class Settings:
         self.map_tile = 16
 
         # scroll
-        self.scroll_speed = -.025
+        self.scroll_speed = -.25
 
         self.character_frames = {
             'mario': {

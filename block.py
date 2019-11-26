@@ -32,7 +32,7 @@ class brick(Sprite):
         self.setting = setting
         self.brick = spriteSheet(setting.block_filename, setting.block_filename_vector)
         self.pos = pos * setting.map_tile
-        self.rect = Rect(pos.x, pos.y, setting.map_tile, setting.map_tile)
+        self.rect = Rect((self.pos.x, self.pos.y), (setting.map_tile, setting.map_tile))
         self.image = pygame.image.load('image/invisable.png')
         self.sp_rect = self.image.get_rect()
 
@@ -63,11 +63,12 @@ class brick(Sprite):
 
     def draw(self):
         self.brick.draw(self.disp, self.brick_index, self.pos)
+        # draw.rect(self.disp, Color('#ffffff'), self.rect)
 
-    def move(self, delta):
-        self.pos.x += self.setting.scroll_speed * delta
+    def move(self, velocity, delta):
+        self.pos.x += velocity * delta
         self.rect.x = self.pos.x
-    pass
+        self.rect.y = self.pos.y
 
 class bricks:
     def __init__(self, setting: Settings, pos: Vector2, dim: Vector2, disp: display, brick_type: str):
@@ -82,9 +83,9 @@ class bricks:
         for mybrick in self.bricks:
             mybrick.draw()
 
-    def move(self, delta):
+    def move(self, velocity, delta):
         for mybrick in self.bricks:
-            mybrick.move(delta)
+            mybrick.move(velocity, delta)
 
     def get_rect(self):
         x = list()
@@ -102,7 +103,7 @@ class question:
         self.index = 0
         self.anim_len = len(self.question_block)
         self.hit = False
-        self.rect = Rect(pos.x, pos.y, setting.map_tile, setting.map_tile)
+        self.rect = Rect(self.pos.x, self.pos.y, setting.map_tile, setting.map_tile)
 
     def draw(self):
         if self.hit:
@@ -111,15 +112,33 @@ class question:
             self.question.draw(self.disp, self.question_block[self.index], self.pos)
         else:
             self.question.draw(self.disp,self.question_block[0], self.pos)
+        # draw.rect(self.disp, Color('#ffffff'), self.rect)
 
-    def move(self, delta):
-        self.pos.x += self.setting.scroll_speed * delta
+    def move(self, velocity, delta):
+        self.pos.x += velocity * delta
+        self.rect.x = self.pos.x
+        self.rect.y = self.pos.y
 
     def get_rect(self):
         return self.rect
 
 class questions:
-    pass
+    def __init__(self, setting: Settings, pos: Vector2, dim: Vector2, disp: display):
+        self.bricks = [question(setting, Vector2(pos.x + x, pos.y + y), disp) for x in range(int(dim.x))for y in range(int(dim.y))]
+
+    def draw(self):
+        for mybrick in self.bricks:
+            mybrick.draw()
+
+    def move(self, velocity, delta):
+        for mybrick in self.bricks:
+            mybrick.move(velocity, delta)
+
+    def get_rect(self):
+        x = list()
+        for y in self.bricks:
+            x.append(y.get_rect())
+        return x
 
 class pipe:
     def __init__(self, setting: Settings, pos: Vector2, dim: Vector2, disp: display, horz: bool, top: bool, left: bool):
@@ -128,11 +147,7 @@ class pipe:
         self.pipe = spriteSheet(setting.block_filename, setting.block_filename_vector)
         self.pos = pos * setting.map_tile
         self.dim = dim
-        self.rect = list()
-        for x in range(1, int(dim.x + 1)):
-            for y in range(1, int(dim.y + 1)):
-                 self.rect.append(Rect(pos.x + self.pipe.cell_width * x, pos.y + self.pipe.cell_height * y, self.pipe.cell_width, self.pipe.cell_height))
-
+        self.rect = [Rect(self.pos.x + self.pipe.cell_width * x, self.pos.y + self.pipe.cell_height * y, self.pipe.cell_width, self.pipe.cell_height) for x in range(int(dim.x)) for y in range(int(dim.y))]
 
         if horz:
             if top:
@@ -156,9 +171,6 @@ class pipe:
         self.left = left
 
     def draw(self):
-        for rect in self.rect:
-            pass
-            # draw.rect(self.disp, Color('#ffffff'), rect)
         if self.horz:
             if self.top:
                 count = 0
@@ -210,9 +222,21 @@ class pipe:
                 for link in self.pipe_link:
                     self.pipe.draw(self.disp, link, Vector2(self.pos.x, self.pos.y + self.setting.map_tile * count))
                     count += 1
+        # for rect in self.rect:
+            # draw.rect(self.disp, Color('#ffffff'), rect)
 
-    def move(self, delta):
-        self.pos.x += self.setting.scroll_speed * delta
+    def move(self, velocity, delta):
+
+        self.pos.x += velocity * delta
+
+        index = 0
+        for x in range(int(self.dim.x)):
+            for y in range(int(self.dim.y)):
+                self.rect[index].x = self.pos.x + self.setting.map_tile * x
+                index += 1
+
+        print('pipe position', self.pos.x)
+        print('rect position', self.rect)
 
     def get_rect(self):
         return self.rect
@@ -224,32 +248,32 @@ class invincible_block:
         self.brick = spriteSheet(setting.block_filename, setting.block_filename_vector)
         self.pos = pos * setting.map_tile
         self.invincible_block_index = setting.invincible_block_index
-        self.rect = Rect(pos.x, pos.y, setting.map_tile, setting.map_tile)
+        self.rect = Rect(self.pos.x, self.pos.y, setting.map_tile, setting.map_tile)
 
     def draw(self):
         self.brick.draw(self.disp, self.invincible_block_index, self.pos)
+        # draw.rect(self.disp, Color('#ffffff'), self.rect)
 
-    def move(self, delta):
-        self.pos.x += self.setting.scroll_speed * delta
+    def move(self, velocity, delta):
+        self.pos.x += velocity * delta
+        self.rect.x = self.pos.x
+        self.rect.y = self.pos.y
 
     def get_rect(self):
         return self.rect
 
 class invincible_blocks:
-    def __init__(self, setting: Settings, pos: Vector2, count: int, disp: display, horz: bool):
-        self.bricks = list()
-        if horz:
-            self.bricks = [invincible_block(setting, Vector2(pos.x + x, pos.y), disp) for x in range(count)]
-        else:
-            self.bricks = [invincible_block(setting, Vector2(pos.x, pos.y + x), disp) for x in range(count)]
+    def __init__(self, setting: Settings, pos: Vector2, dim: Vector2, disp: display):
+        self.bricks = [invincible_block(setting, Vector2(pos.x + x, pos.y + y), disp) for x in range(int(dim.x)) for y in range(int(dim.y))]
+
 
     def draw(self):
         for mybrick in self.bricks:
             mybrick.draw()
 
-    def move(self, delta):
+    def move(self, velocity, delta):
         for mybrick in self.bricks:
-            mybrick.move()
+            mybrick.move(velocity, delta)
 
     def get_rect(self):
         x = list()
@@ -264,33 +288,32 @@ class floor_block:
         self.brick = spriteSheet(setting.block_filename, setting.block_filename_vector)
         self.pos = pos * setting.map_tile
         self.floor_block_index = setting.floor_block_index
-        self.rect = Rect(pos.x, pos.y, setting.map_tile, setting.map_tile)
+        self.rect = Rect(self.pos.x, self.pos.y, setting.map_tile, setting.map_tile)
 
     def draw(self):
         self.brick.draw(self.disp, self.floor_block_index, self.pos)
+        ## draw.rect(self.disp, Color('#ffffff'), self.rect)
 
-    def move(self, delta):
-         self.pos.x += self.setting.scroll_speed * delta
+    def move(self, velocity, delta):
+        self.pos.x += velocity * delta
+        self.rect.x = self.pos.x
+        self.rect.y = self.pos.y
 
     def get_rect(self):
         return self.rect
 
 
 class floor_blocks:
-    def __init__(self, setting: Settings, pos: Vector2, count: int, disp: display, horz: bool):
-        self.bricks = list()
-        if horz:
-            self.bricks = [floor_block(setting, Vector2(pos.x + x, pos.y), disp) for x in range(count)]
-        else:
-            self.bricks = [floor_block(setting, Vector2(pos.x, pos.y + x), disp) for x in range(count)]
+    def __init__(self, setting: Settings, pos: Vector2, dim: Vector2, disp: display):
+        self.bricks = [floor_block(setting, Vector2(pos.x + x, pos.y + y), disp) for x in range(int(dim.x)) for y in range(int(dim.y))]
 
     def draw(self):
         for mybrick in self.bricks:
             mybrick.draw()
 
-    def move(self, delta):
+    def move(self, velocity, delta):
         for mybrick in self.bricks:
-            mybrick.move(delta)
+            mybrick.move(velocity, delta)
 
     def get_rect(self):
         x = list()
@@ -308,7 +331,7 @@ class bridge:
         self.bridge_block_index = setting.bridge_block_index
         self.bridge_fence_index = setting.bridge_fence_index
         self.length = length
-        self.rect = [Rect(pos.x + setting.map_tile * x, pos.y, setting.map_tile, setting.map_tile) for x in range(self.length)]
+        self.rect = [Rect(self.pos.x + setting.map_tile * x, self.pos.y, setting.map_tile, setting.map_tile) for x in range(self.length)]
 
     def draw(self):
         self.brick.draw(self.disp, self.bridge_fence_index[0], Vector2(self.pos.x, self.pos.y - self.setting.map_tile))
@@ -319,8 +342,8 @@ class bridge:
         self.brick.draw(self.disp, self.bridge_fence_index[-1], Vector2(self.pos.x + self.setting.map_tile * self.length, self.pos.y - self.setting.map_tile))
         self.brick.draw(self.disp, self.bridge_block_index[-1], Vector2(self.pos.x + self.setting.map_tile * self.length, self.pos.y))
 
-    def move(self, delta):
-         self.pos.x += self.setting.scroll_speed * delta
+    def move(self, velocity, delta):
+         self.pos.x += velocity * delta
 
     def get_rect(self):
         return self.rect
@@ -335,7 +358,7 @@ class boss_bridge:
         self.boss_bridge_chain_index = setting.boss_bridge_chain_index
         self.length = length
         self.draw_chain = True
-        self.rect = [Rect(pos.x + setting.map_tile * x, pos.y, setting.map_tile, setting.map_tile) for x in range(self.length)]
+        self.rect = [Rect(self.pos.x + setting.map_tile * x, self.pos.y, setting.map_tile, setting.map_tile) for x in range(self.length)]
 
     def draw(self):
         if self.draw_chain:
@@ -343,8 +366,10 @@ class boss_bridge:
         for x in range(self.length):
             self.brick.draw(self.disp, self.boss_bridge_block_index, Vector2(self.pos.x + self.setting.map_tile * x, self.pos.y))
 
-    def move(self, delta):
-        self.pos.x += self.setting.scroll_speed * delta
+    def move(self, velocity, delta):
+        self.pos.x += velocity * delta
+        for rect in self.rect:
+            rect.x += velocity * delta
 
     def get_rect(self):
         return self.rect
@@ -358,7 +383,7 @@ class vine:
         self.rect = Rect(pos.x, pos.y, setting.map_tile, setting.map_tile)
         self.dim = dim
         self.hang = hang
-        self.rect = [Rect(pos.x + setting.map_tile * x, pos.y + setting.map_tile * y, setting.map_tile, setting.map_tile) for x in
+        self.rect = [Rect(self.pos.x + setting.map_tile * x, self.pos.y + setting.map_tile * y, setting.map_tile, setting.map_tile) for x in
                      range(int(dim.x)) for y in range(int(dim.y))]
 
         if vine_type == 'blue':
@@ -378,8 +403,10 @@ class vine:
                 for y in range(1, int(self.dim.y)):
                     self.brick.draw(self.disp, self.vine_index[-1], Vector2(self.pos.x + self.setting.map_tile * x, self.pos.y + self.setting.map_tile * y))
 
-    def move(self, delta):
-        self.pos.x += self.setting.scroll_speed * delta
+    def move(self, velocity, delta):
+        self.pos.x += velocity * delta
+        for rect in self.rect:
+            rect.x += velocity * delta
 
     def get_rect(self):
         return self.rect
@@ -390,7 +417,7 @@ class coin:
         self.setting = setting
         self.brick = spriteSheet(setting.block_filename, setting.block_filename_vector)
         self.pos = pos * setting.map_tile
-        self.rect = Rect(pos.x, pos.y, setting.map_tile, setting.map_tile)
+        self.rect = Rect(self.pos.x, self.pos.y, setting.map_tile, setting.map_tile)
 
         if coin_type == 'reg':
             self.coin_index = setting.coin_reg_index
@@ -408,8 +435,10 @@ class coin:
         if self.coin_state < self.coin_size:
             self.coin_state = 0
 
-    def move(self, delta):
-        self.pos.x += self.setting.scroll_speed * delta
+    def move(self, velocity, delta):
+        self.pos.x += velocity * delta
+        self.rect.x = self.pos.x
+        self.rect.y = self.pos.y
 
     def get_rect(self):
         return self.rect
@@ -421,7 +450,7 @@ class liquid:
         self.brick = spriteSheet(setting.block_filename, setting.block_filename_vector)
         self.pos = pos * setting.map_tile
         self.dim = dim
-        self.rect = [Rect(pos.x + setting.map_tile * x, pos.y + setting.map_tile * y, setting.map_tile, setting.map_tile) for x in
+        self.rect = [Rect(self.pos.x + setting.map_tile * x, self.pos.y + setting.map_tile * y, setting.map_tile, setting.map_tile) for x in
                      range(int(dim.x)) for y in range(int(dim.y))]
 
         if water:
@@ -437,8 +466,10 @@ class liquid:
             for y in range(1, int(self.dim.y)):
                 self.brick.draw(self.disp, self.liquid_index, Vector2(self.pos.x + self.setting.map_tile * x, self.pos.y + self.setting.map_tile * y))
 
-    def move(self, delta):
-        self.pos.x += self.setting.scroll_speed * delta
+    def move(self, velocity, delta):
+        self.pos.x += velocity * delta
+        for rect in self.rect:
+            rect.x += velocity * delta
 
     def get_rect(self):
         return self.rect
@@ -450,7 +481,7 @@ class mushroom_block:
         self.brick = spriteSheet(setting.block_filename, setting.block_filename_vector)
         self.pos = pos * setting.map_tile
         self.dim = dim
-        self.rect = self.rect = [Rect(pos.x + setting.map_tile * x, pos.y, setting.map_tile, setting.map_tile) for x in range(int(dim.x))]
+        self.rect = self.rect = [Rect(self.pos.x + setting.map_tile * x, self.pos.y, setting.map_tile, setting.map_tile) for x in range(int(dim.x))]
 
         if green:
             self.mushroom_top_index = setting.mushroom_top_green_index
@@ -472,8 +503,10 @@ class mushroom_block:
                             Vector2(self.pos.x + self.setting.map_tile * (self.dim.x // 2),
                                     self.pos.y + self.setting.map_tile * y))
 
-    def move(self, delta):
-        self.pos.x += self.setting.scroll_speed * delta
+    def move(self, velocity, delta):
+        self.pos.x += velocity * delta
+        for rect in self.rect:
+            rect.x += velocity * delta
 
     def get_rect(self):
         return self.rect
@@ -488,7 +521,7 @@ class cliff:
         self.cliff_mid_index = setting.cliff_mid_index
         self.cliff_bot_index = setting.cliff_bot_index
         self.dim = dim
-        self.rect = self.rect = [Rect(pos.x + setting.map_tile * x, pos.y, setting.map_tile, setting.map_tile) for x in
+        self.rect = self.rect = [Rect(self.pos.x + setting.map_tile * x, self.pos.y, setting.map_tile, setting.map_tile) for x in
                                  range(int(dim.x))]
 
     def draw(self):
@@ -510,8 +543,10 @@ class cliff:
             self.brick.draw(self.disp, self.cliff_bot_index[-1],
                             Vector2(self.pos.x + self.setting.map_tile * self.dim.x, self.pos.y + self.setting.map_tile * y))
 
-    def move(self, delta):
-         self.pos.x += self.setting.scroll_speed * delta
+    def move(self, velocity, delta):
+        self.pos.x += velocity * delta
+        for rect in self.rect:
+            rect.x += velocity * delta
 
     def get_rect(self):
         return self.rect
@@ -526,12 +561,44 @@ class hill:
     pass
 
 class castle:
-    def __init__(self, setting: Settings, pos: Vector2, disp: display, brick_type: str):
+    def __init__(self, setting: Settings, pos: Vector2, disp: display):
         self.disp = disp
         self.setting = setting
         self.brick = spriteSheet(setting.block_filename, setting.block_filename_vector)
         self.pos = pos * setting.map_tile
-    pass
+        self.castle_index = setting.castle_index
+        self.castle__flag_index = setting.castle_flag_index
+
+    def draw(self):
+        self.brick.draw(self.disp, self.castle_index[2], Vector2(self.pos.x + self.setting.map_tile * 0, self.pos.y + self.setting.map_tile * 0))
+        self.brick.draw(self.disp, self.castle_index[2], Vector2(self.pos.x + self.setting.map_tile * 1, self.pos.y + self.setting.map_tile * 0))
+        self.brick.draw(self.disp, self.castle_index[6], Vector2(self.pos.x + self.setting.map_tile * 2, self.pos.y + self.setting.map_tile * 0))
+        self.brick.draw(self.disp, self.castle_index[2], Vector2(self.pos.x + self.setting.map_tile * 3, self.pos.y + self.setting.map_tile * 0))
+        self.brick.draw(self.disp, self.castle_index[2], Vector2(self.pos.x + self.setting.map_tile * 4, self.pos.y + self.setting.map_tile * 0))
+
+        self.brick.draw(self.disp, self.castle_index[2], Vector2(self.pos.x + self.setting.map_tile * 0, self.pos.y + self.setting.map_tile * -1))
+        self.brick.draw(self.disp, self.castle_index[2], Vector2(self.pos.x + self.setting.map_tile * 1, self.pos.y + self.setting.map_tile * -1))
+        self.brick.draw(self.disp, self.castle_index[5], Vector2(self.pos.x + self.setting.map_tile * 2, self.pos.y + self.setting.map_tile * -1))
+        self.brick.draw(self.disp, self.castle_index[2], Vector2(self.pos.x + self.setting.map_tile * 3, self.pos.y + self.setting.map_tile * -1))
+        self.brick.draw(self.disp, self.castle_index[2], Vector2(self.pos.x + self.setting.map_tile * 4, self.pos.y + self.setting.map_tile * -1))
+
+        self.brick.draw(self.disp, self.castle_index[0], Vector2(self.pos.x + self.setting.map_tile * 0, self.pos.y + self.setting.map_tile * -2))
+        self.brick.draw(self.disp, self.castle_index[4], Vector2(self.pos.x + self.setting.map_tile * 1, self.pos.y + self.setting.map_tile * -2))
+        self.brick.draw(self.disp, self.castle_index[4], Vector2(self.pos.x + self.setting.map_tile * 2, self.pos.y + self.setting.map_tile * -2))
+        self.brick.draw(self.disp, self.castle_index[4], Vector2(self.pos.x + self.setting.map_tile * 3, self.pos.y + self.setting.map_tile * -2))
+        self.brick.draw(self.disp, self.castle_index[0], Vector2(self.pos.x + self.setting.map_tile * 4, self.pos.y + self.setting.map_tile * -2))
+
+        self.brick.draw(self.disp, self.castle_index[1], Vector2(self.pos.x + self.setting.map_tile * 1, self.pos.y + self.setting.map_tile * -3))
+        self.brick.draw(self.disp, self.castle_index[2], Vector2(self.pos.x + self.setting.map_tile * 2, self.pos.y + self.setting.map_tile * -3))
+        self.brick.draw(self.disp, self.castle_index[3], Vector2(self.pos.x + self.setting.map_tile * 3, self.pos.y + self.setting.map_tile * -3))
+
+        self.brick.draw(self.disp, self.castle_index[0], Vector2(self.pos.x + self.setting.map_tile * 1, self.pos.y + self.setting.map_tile * -4))
+        self.brick.draw(self.disp, self.castle_index[0], Vector2(self.pos.x + self.setting.map_tile * 2, self.pos.y + self.setting.map_tile * -4))
+        self.brick.draw(self.disp, self.castle_index[0], Vector2(self.pos.x + self.setting.map_tile * 3, self.pos.y + self.setting.map_tile * -4))
+
+    def move(self, velocity, delta):
+        self.pos.x += velocity * delta
+
 class flag:
     def __init__(self, setting: Settings, pos: Vector2, disp: display):
         self.disp = disp
@@ -544,7 +611,7 @@ class flag:
         self.flag_height = setting.flag_height
         self.flag_time = self.flag_height / 5
         self.flag_lower = 0
-        self.rect = [Rect(pos.x, pos.y + setting.map_tile * x, setting.map_tile, setting.map_tile) for x in
+        self.rect = [Rect(self.pos.x, self.pos.y + setting.map_tile * x, setting.map_tile, setting.map_tile) for x in
                      range(self.flag_height)]
 
     def draw(self):
@@ -553,11 +620,15 @@ class flag:
             self.brick.draw(self.disp, self.flag_poll_index[-1], Vector2(self.pos.x, self.pos.y + self.setting.map_tile * y))
 
         self.brick.draw(self.disp, self.flag_index, Vector2(self.pos.x - self.setting.map_tile + 6, self.pos.y + self.setting.map_tile * self.flag_lower))
+        # for rect in self.rect:
+        #     # draw.rect(self.disp, Color('#ffffff'), rect)
 
-    def move(self, delta):
-        self.pos.x += self.setting.scroll_speed * delta
+    def move(self, velocity, delta):
+        self.pos.x += velocity * delta
         if self.flag_lower < self.flag_height - 1:
             self.flag_lower += self.flag_time * delta * .001
+        for rect in self.rect:
+            rect.x = self.pos.x
 
     def get_rect(self):
         return self.rect
@@ -603,5 +674,5 @@ class plant:
             for x in range(self.plant_size):
                 self.brick.draw(self.disp, self.plant_index[x], Vector2(self.pos.x + self.setting.map_tile * x, self.pos.y))
 
-    def move(self, delta):
-        self.pos.x += self.setting.scroll_speed * delta
+    def move(self, velocity, delta):
+        self.pos.x += velocity * delta
